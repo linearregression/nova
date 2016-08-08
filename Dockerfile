@@ -11,7 +11,7 @@ RUN apk add --no-cache --virtual .pycrypto-build-deps \
        libffi-dev \
        openssl-dev \
        build-base \
-    && apk add --no-cache git \
+    && apk add --no-cache git docker \
     && pip install -U gilt-nova \
     && apk del .pycrypto-build-deps \
     && rm -rf ~/.cache

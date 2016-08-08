@@ -62,7 +62,7 @@ if [ $DOCKER_CERT_PATH ] ;
   then HOST_DOCKER_LINKAGE="-e DOCKER_CERT_PATH=$DOCKER_CERT_PATH $HOST_DOCKER_LINKAGE"
 fi;
 
-if [[ "`uname`" == "Linux" && -e "/var/run/docker.sock" ]]
+if [[ -e "/var/run/docker.sock" ]]
   then HOST_DOCKER_LINKAGE="-v /var/run/docker.sock:/var/run/docker.sock $HOST_DOCKER_LINKAGE"
 fi;
 
