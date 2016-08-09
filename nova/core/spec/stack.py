@@ -68,13 +68,22 @@ class Stack(object):
             else:
                 raise NovaError("Unable to determine 'HostedZoneName' from DNS record '%s'" % record)
 
+        logs = service.logs
+
+        if service.code_deploy_logs:
+            logs.extend([
+                ServiceLogMapping("/var/log/aws/codedeploy-agent/codedeploy-agent.log", "codedeploy-agent-log", "%Y-%m-%d %H:%M:%S"),
+                ServiceLogMapping("/tmp/codedeploy-agent.update.log", "codedeploy-updater-log", None),
+                ServiceLogMapping("/opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log", "codedeploy-deployments-log", None)
+            ])
+
         other_params.update([
             ('StackType', self.stack_type),
             ('Port', service.port),
             ('ApplicationName', service.name),
             ('TeamName', service.team_name),
             ('HealthcheckUrl', service.healthcheck_url),
-            ('LogsList', self.serialize_logs_settings(service.logs))
+            ('LogsList', self.serialize_logs_settings(logs))
         ])
 
         if include_docker:
