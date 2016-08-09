@@ -3,7 +3,7 @@
 # Runs nova
 #
 
-NOVA_DOCKER_IMAGE=${NOVA_DOCKER_IMAGE-giltouroboros/nova}
+NOVA_DOCKER_IMAGE=${NOVA_DOCKER_IMAGE-nova}
 
 if [ "$VERBOSE" != "" ] ; then
   set -x
@@ -58,16 +58,18 @@ if [[ -e "/var/run/docker.sock" ]]
   then HOST_DOCKER_LINKAGE="-v /var/run/docker.sock:/var/run/docker.sock $HOST_DOCKER_LINKAGE"
 fi;
 
-docker_update() {
-  exec docker pull "$@"
-}
+# Requires a permanent home on Dockerhub before we can use this
+#docker_update() {
+#  exec docker pull "$@"
+#}
 
 docker_run() {
   exec docker run ${AWS_CLI_ENV_ARGS} $DOCKER_INTERACTIVE $DOCKER_ENVIRONMENT $DOCKER_VOLUMES $DOCKER_OPTIONS "$@"
 }
 
 if [[ $# -gt 0 && "z$1" == "zupdate" ]]; then
-  docker_update $NOVA_DOCKER_IMAGE
+  echo "Rebuild by checking out https://github.com/gilt/nova and running \"make\""
+  exit 1
 else
   docker_run \
     -w $HOST_OS_PWD \
