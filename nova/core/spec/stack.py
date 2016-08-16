@@ -10,7 +10,7 @@ from collections import OrderedDict
 from nova.core import NovaError
 from nova.core.cfn_pyplates.core import Resource, Output
 from nova.core.cfn_pyplates.functions import ref, get_att
-
+from nova.core.spec.service_log_mapping import ServiceLogMapping
 
 def stack_param_known(k):
     return k.startswith('stack_') or k.startswith('deployment_')
@@ -68,7 +68,7 @@ class Stack(object):
             else:
                 raise NovaError("Unable to determine 'HostedZoneName' from DNS record '%s'" % record)
 
-        logs = service.logs
+        logs = service.logs or []
 
         if service.code_deploy_logs:
             logs.extend([

@@ -66,7 +66,9 @@ class Service(object):
         if logs_list is not None:
             logs_list = [ServiceLogMapping.load(lm) for lm in logs_list]
 
-        code_deploy_logs = (values.get("code_deploy_logs") or "true") == "true"
+        code_deploy_logs = True
+        if values.get("code_deploy_logs") is not None:
+            code_deploy_logs = values.get("code_deploy_logs")
 
         return Service(
             values.get("service_name"),
