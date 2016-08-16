@@ -12,6 +12,7 @@ from nova.core.cfn_pyplates.core import Resource, Output
 from nova.core.cfn_pyplates.functions import ref, get_att
 from nova.core.spec.service_log_mapping import ServiceLogMapping
 
+
 def stack_param_known(k):
     return k.startswith('stack_') or k.startswith('deployment_')
 
